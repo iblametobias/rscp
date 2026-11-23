@@ -1,0 +1,2 @@
+ [alias]
+ cptest = "test -q"

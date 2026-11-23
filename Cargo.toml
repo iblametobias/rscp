@@ -1,0 +1,18 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+edition = "2021"
+build = "tools/build.rs"
+
+[lib]
+test = false
+doctest = false
+
+[[bin]]
+name = "{{project-name}}"
+path = "src/main.rs"
+test = false
+
+[[test]]
+name = "check"
+path = "tools/check.rs"
