@@ -38,7 +38,7 @@ impl Drop for Flush {
 /// Needed only in interactive mode after `put!`; `putln!` flushes by itself there.
 pub fn flush() {
     unsafe {
-        if let Some(o) = (*(&raw mut OUT)).as_mut() {
+        if let Some(o) = (*(std::ptr::addr_of_mut!(OUT))).as_mut() {
             let _ = o.flush();
         }
     }
@@ -313,7 +313,7 @@ macro_rules! put {
     ($($arg:tt)*) => {
         unsafe {
             use ::std::io::Write;
-            let _ = write!((*(&raw mut $crate::OUT)).as_mut().unwrap_unchecked(), $($arg)*);
+            let _ = write!((*(::std::ptr::addr_of_mut!($crate::OUT))).as_mut().unwrap_unchecked(), $($arg)*);
         }
     };
 }
@@ -326,7 +326,7 @@ macro_rules! putln {
     ($($arg:tt)*) => {
         unsafe {
             use ::std::io::Write;
-            let _ = writeln!((*(&raw mut $crate::OUT)).as_mut().unwrap_unchecked(), $($arg)*);
+            let _ = writeln!((*(::std::ptr::addr_of_mut!($crate::OUT))).as_mut().unwrap_unchecked(), $($arg)*);
             $crate::flush_if_interactive();
         }
     };
